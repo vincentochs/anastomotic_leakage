@@ -258,7 +258,6 @@ if selected == 'Home':
     predict_button = st.button('Predict')
     if predict_button:
         import pandas as pd
-        st.text(pd.__version__)
         # Check that bmi pre is equal or greater than 35
         number_of_warnings = 0
         if user_input['bmi'].values[0] < 35:
@@ -275,7 +274,11 @@ if selected == 'Home':
             with localconverter(ro.default_converter + pandas2ri.converter):
                 prediction_python = ro.conversion.rpy2py(prediction_r)
             # Text to show
-            text_to_show = 'The Label predictes is --> ' + str(prediction_python[0])
+            if prediction_python[0] == 'ainYES':
+                text_to_show_aux = 'Anastomotic Leakage'
+            else:
+                text_to_show_aux = 'No Anastomotic Leakage'
+            text_to_show = 'The Label predictes is --> ' + text_to_show_aux
             # Predict probabilities
             # Assign user input in R
             ro.r.assign('user_input' , user_input_r)
@@ -286,6 +289,7 @@ if selected == 'Home':
             with localconverter(ro.default_converter + pandas2ri.converter):
                 probs_python = ro.conversion.rpy2py(probs_r)
             probs_python.index = ['Probability']
+            probs_python.columns = ['No Anastomotic Leakage' , 'Anastomotic Leakage']
             st.text('Probabilities')
             st.dataframe(probs_python)
             st.text(text_to_show)
