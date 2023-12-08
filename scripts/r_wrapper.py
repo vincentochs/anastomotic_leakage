@@ -2,7 +2,7 @@
 """
 Created on Thu Nov 30 10:06:27 2023
 
-@author: Edgar David
+
 """
 
 #rpy2_wrapper/model.py 
