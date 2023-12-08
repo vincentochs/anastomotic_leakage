@@ -41,20 +41,24 @@ def initialize_app():
     return loaded_model
 ###############################################################################
 # Preprocess input function
-def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nutrition,
-                     prior , leukocytosis , steroids , cci , asa, renal , albumin , hemoglobin , 
-                     hand , emergent , laparoscopic , ileostoma , type_ , indication , perforation,
-                     livermets):
+# old 
+#def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nutrition,
+#                     prior , leukocytosis , steroids , cci , asa, renal , albumin , hemoglobin , 
+#                    hand , emergent , laparoscopic , ileostoma , type_ , indication , perforation,
+#                     livermets):
+def preprocess_input(asa, height, weight, bmi, smoker, alcohol,
+                     leukocytosis, cci, renal,
+                     albumin, hemoglobin, emergent, laparoscopic, type_):
     # Dictionary to save the information
     information = {}
     
     # Female
-    if female == 'Male':
-        information['female'] = [0]
-    else:
-        information['female'] = [1]
+    #if female == 'Male':
+    #    information['female'] = [0]
+    #else:
+    #    information['female'] = [1]
     # Age
-    information['age'] = [int(age)]
+    #information['age'] = [int(age)]
     # Height
     information['height'] = [int(height)]
     # Weight
@@ -72,22 +76,22 @@ def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nu
     else:
         information['alcohol'] = [0]
     # Nutrition Score
-    information['nutrition'] = [float(nutrition)]
+    #information['nutrition'] = [float(nutrition)]
     # Prior abdominal surgery
-    if prior == 'Yes':
-        information['prior'] = [1]
-    else:
-        information['prior'] = [0]
+    #if prior == 'Yes':
+    #    information['prior'] = [1]
+    #else:
+    #    information['prior'] = [0]
     # Leokocytosis
     if leukocytosis == 'Yes':
         information['leukocytosis'] = [1]
     else:
         information['leukocytosis'] = [0]
     # Steroids Usage
-    if steroids == 'Yes':
-        information['steroids'] = [1]
-    else:
-        information['steroids'] = [0]
+    #if steroids == 'Yes':
+    #    information['steroids'] = [1]
+    #else:
+    #    information['steroids'] = [0]
     # CCI
     information['cci'] = [float(cci)]
     # ASA Score
@@ -115,12 +119,12 @@ def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nu
     # Hemoglobin
     information['hemoglobin'] = [float(hemoglobin)]
     # Technique Hand sewn
-    if hand == 'Yes':
-        information['hand'] = [1]
-    if hand == 'No':
-        information['hand'] = [0]
-    if hand == 'Unkown':
-        information['hand'] = [2]
+    #if hand == 'Yes':
+    #    information['hand'] = [1]
+    #if hand == 'No':
+    #    information['hand'] = [0]
+    #if hand == 'Unkown':
+    #    information['hand'] = [2]
     # Emergency surgery
     if emergent == 'Yes':
         information['emergent'] = [1]
@@ -134,10 +138,10 @@ def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nu
     if laparoscopic == 'Robotic':
         information['laparoscopic'] = [3]
     # Ileostoma
-    if ileostoma == 'Yes':
-        information['ileostoma'] = [1]
-    else:
-        information['ileostoma'] = [0]
+    #if ileostoma == 'Yes':
+    #    information['ileostoma'] = [1]
+    #else:
+    #    information['ileostoma'] = [0]
     # Surgical Type Approach
     if type_ == 'Extended Left Hemicolectomy':
         information['type'] = [2]
@@ -152,28 +156,28 @@ def preprocess_input(age , female , height , weight, bmi , smoker , alcohol , nu
     if type_ == 'Hartmann´s reversal or reversal of colostomy':
         information['type'] = [9]
     # Indication
-    if indication == 'Tumor':
-        information['indication'] = [1]
-    if indication == 'IBD':
-        information['indication'] = [2]
-    if indication == 'Diverticulitis disease +':
-        information['indication'] = [3]
-    if indication == 'Diverticulitis disease':
-        information['indication'] = [4]
-    if indication == 'Other':
-        information['indication'] = [5]
-    if indication == 'Ischemia':
-        information['indication'] = [6]
+    #if indication == 'Tumor':
+    #    information['indication'] = [1]
+    #if indication == 'IBD':
+    #    information['indication'] = [2]
+    #if indication == 'Diverticulitis disease +':
+    #    information['indication'] = [3]
+    #if indication == 'Diverticulitis disease':
+    #    information['indication'] = [4]
+    #if indication == 'Other':
+    #    information['indication'] = [5]
+    #if indication == 'Ischemia':
+    #    information['indication'] = [6]
     # Perforation
-    if perforation == 'Yes':
-        information['perforation'] = [1]
-    else:
-        information['perforation'] = [0]
+    #if perforation == 'Yes':
+    #    information['perforation'] = [1]
+    #else:
+    #    information['perforation'] = [0]
     # Livermets
-    if livermets == 'Yes':
-        information['livermets'] = [1]
-    else:
-        information['livermets'] = [0]
+    #if livermets == 'Yes':
+    #    information['livermets'] = [1]
+    #else:
+    #    information['livermets'] = [0]
     
     # Convert to a dataframe
     information = pd.DataFrame(data = information)
@@ -214,50 +218,51 @@ if selected == 'Home':
     st.sidebar.subheader("Please choose parameters")
     
     # Patients info input
-    female = st.sidebar.selectbox('Gender', ('Male' , 'Female'))
-    age = st.sidebar.slider("Age:", min_value = 18, max_value = 100,step = 1)
-    height = st.sidebar.slider("Height:", min_value = 100 , max_value = 300, step = 1)
-    weight = st.sidebar.slider("Weight:", min_value = 30 , max_value = 200, step = 1)
+    #female = st.sidebar.selectbox('Gender', ('Male' , 'Female'))
+    #age = st.sidebar.slider("Age:", min_value = 18, max_value = 100,step = 1)
+    height = st.sidebar.slider("Height:", min_value = 120 , max_value = 260, step = 1)
+    weight = st.sidebar.slider("Weight:", min_value = 30 , max_value = 160, step = 1)
     bmi = st.sidebar.slider("BMI:" , min_value = 35.0, max_value = 100.0, step = 0.1)
     smoker = st.sidebar.selectbox('Smoker:', ('Yes' , 'No'))
     alcohol = st.sidebar.selectbox('Alcohol:', ('Yes' , 'No'))
-    nutrition = st.sidebar.slider("Nutrition Score:", min_value = 1 , max_value = 10, step = 1)
-    prior = st.sidebar.selectbox('Prior Abdominal Surgery:', ('Yes' , 'No'))
+    #nutrition = st.sidebar.slider("Nutrition Score:", min_value = 1 , max_value = 10, step = 1)
+    #prior = st.sidebar.selectbox('Prior Abdominal Surgery:', ('Yes' , 'No'))
     leukocytosis = st.sidebar.selectbox('Leukocytosis:', ('Yes' , 'No'))
-    steroids = st.sidebar.selectbox('Steroids Usage:', ('Yes' , 'No'))
-    cci = st.sidebar.slider("CCI:", min_value = 0 , max_value = 30, step = 1)
+    #steroids = st.sidebar.selectbox('Steroids Usage:', ('Yes' , 'No'))
+    cci = st.sidebar.slider("CCI:", min_value = 0 , max_value = 20, step = 1)
     asa = st.sidebar.selectbox('ASA Score', ('I', 'II', 'III', 'IV'))
     renal = st.sidebar.selectbox('Renal Function', ('G1', 'G2', 'G3', 'G4' , 'G5'))
     laparoscopic = st.sidebar.selectbox('Laparoscopic', ('Open', 'Laparoscopic', 'Robotic'))
     albumin = st.sidebar.slider("Albumin:" , min_value = 0.0, max_value = 10.0, step = 0.1)
     hemoglobin = st.sidebar.slider("Hemoglobin:" , min_value = 0.0, max_value = 20.0, step = 0.1)
-    hand = st.sidebar.selectbox('Technique (Hand-Sewn):', ('Yes' , 'No' , 'Unknown'))
+    #hand = st.sidebar.selectbox('Technique (Hand-Sewn):', ('Yes' , 'No' , 'Unknown'))
     emergent = st.sidebar.selectbox('Emergency Surgery:', ('Yes' , 'No'))
-    ileostoma = st.sidebar.selectbox('Ileostoma:', ('Yes' , 'No'))
+    #ileostoma = st.sidebar.selectbox('Ileostoma:', ('Yes' , 'No'))
     type_ = st.sidebar.selectbox('Surgical Approach:', ('Extended Left Hemicolectomy', # 2
                                                         'Extended Right Hemicolectomy', # 4
                                                         'Ileocecal Resection', # 5
                                                         'Transverse colectomy', # 6
                                                         'Rectosigmoid resertion / Sigmoidectomy', # 7
                                                         'Hartmann´s reversal or reversal of colostomy')) # 9
-    indication = st.sidebar.selectbox('Indication:', ('Tumor',
-                                                      'IBD',
-                                                      'Diverticulitis disease +',
-                                                      'Divertivulitis disease',
-                                                      'Other',
-                                                      'Ischemia'))
-    perforation = st.sidebar.selectbox('Perforation:', ('Yes' , 'No'))
-    livermets = st.sidebar.selectbox('Livermets:', ('Yes' , 'No'))
+    #indication = st.sidebar.selectbox('Indication:', ('Tumor',
+    #                                                  'IBD',
+    #                                                  'Divertivulitis disease',
+    #                                                  'Other',
+    #                                                  'Ischemia'))
+    #perforation = st.sidebar.selectbox('Perforation:', ('Yes' , 'No'))
+    #livermets = st.sidebar.selectbox('Livermets:', ('Yes' , 'No'))
     
     # Parser user information
-    user_input = preprocess_input(age, female, height, weight, bmi, smoker, alcohol,
-                                  nutrition, prior, leukocytosis, steroids, cci, asa, renal,
-                                  albumin, hemoglobin, hand, emergent, laparoscopic, ileostoma, type_,
-                                  indication, perforation, livermets)
+    #user_input = preprocess_input(age, female, height, weight, bmi, smoker, alcohol,
+    #                              nutrition, prior, leukocytosis, steroids, cci, asa, renal,
+    #                              albumin, hemoglobin, hand, emergent, laparoscopic, ileostoma, type_,
+    #                              indication, perforation, livermets)
+    user_input = preprocess_input(asa, height, weight, bmi, smoker, alcohol,
+                                  leukocytosis, cci, renal,
+                                  albumin, hemoglobin, emergent, laparoscopic, type_)
     # Prediction
     predict_button = st.button('Predict')
     if predict_button:
-        import pandas as pd
         # Check that bmi pre is equal or greater than 35
         number_of_warnings = 0
         if user_input['bmi'].values[0] < 35:
