@@ -2,7 +2,7 @@
 """
 Created on Thu Nov 30 08:28:15 2023
 
-@author: Edgar David
+
 
 This script is used to train a lasso model as same as in R code
 """
